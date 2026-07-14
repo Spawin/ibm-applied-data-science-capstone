@@ -61,7 +61,6 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
               Input(component_id='site-dropdown', component_property='value'))
 def get_pie_chart(entered_site):
     if entered_site == 'ALL':
-        # values='class' SOMME la colonne class par site => nb de succès de chaque site
         fig = px.pie(
             spacex_df,
             values='class',
@@ -71,7 +70,6 @@ def get_pie_chart(entered_site):
         return fig
     else:
         filtered_df = spacex_df[spacex_df['Launch Site'] == entered_site]
-        # Ici on veut le ratio succès/échecs : on COMPTE les 0 et les 1
         outcome_counts = filtered_df['class'].value_counts().reset_index()
         outcome_counts.columns = ['class', 'count']
         fig = px.pie(
@@ -89,7 +87,6 @@ def get_pie_chart(entered_site):
                Input(component_id='payload-slider', component_property='value')])
 def get_scatter_chart(entered_site, payload_range):
     low, high = payload_range
-    # Le filtre payload s'applique dans LES DEUX cas, d'où sa position hors du if
     mask = (spacex_df['Payload Mass (kg)'] >= low) & (spacex_df['Payload Mass (kg)'] <= high)
     filtered_df = spacex_df[mask]
 
